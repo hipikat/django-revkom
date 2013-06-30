@@ -2,6 +2,9 @@
 from revkom.settings import settings_path
 
 
+g = globals()
+
+
 # Debugging and development modes
 DEBUG = True
 TEMPLATE_STRING_IF_INVALID = 'INVALID_CONTEXT[%s]'
@@ -10,4 +13,4 @@ TEMPLATE_STRING_IF_INVALID = 'INVALID_CONTEXT[%s]'
 execfile(settings_path.child('base.py'))
 
 # Directory structure
-s('MEDIA_ROOT', TMP_DIR.child('media'))
+MEDIA_ROOT = g.get('MEDIA_ROOT', g['TMP_DIR'].child('media'))

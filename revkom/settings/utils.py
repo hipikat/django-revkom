@@ -2,6 +2,8 @@
 import os
 from collections import Mapping
 
+from revkom.utils import deep_update
+
 
 ###
 # Logging
@@ -14,7 +16,7 @@ LOGGING_SETTINGS_DEFAULTS = {
     'handlers': {},
     'loggers': {},
 }
-LOGFILE_DEFAULTS = { 
+LOGFILE_DEFAULTS = {
     'level': 'DEBUG',   # Level's set by loggers, so debug here catch anything.
     'class': 'logging.handlers.RotatingFileHandler',    # Keep files,
     'backupCount': 2,                                   # up to 3,
@@ -23,23 +25,11 @@ LOGFILE_DEFAULTS = {
 }
 
 
-def deep_update(mapping, updated):
-    """
-    Deep, non-destructive updating for dictionaries.
-    From: http://stackoverflow.com/a/3233356/218397
-    """
-    for (key, val) in updated.iteritems():
-        if isinstance(val, Mapping):
-            mapping[key] = deep_update(mapping.get(key, {}), val)
-        else:
-            mapping[key] = updated[key]
-    return mapping
-
-
 class LoggingSettings(dict):
     def __init__(self, *args, **kwargs):
         # Install the default keys/values, either passed in or defined above.
-        self.update(kwargs.pop('defaults') if 'defaults' in kwargs \
+        self.update(
+            kwargs.pop('defaults') if 'defaults' in kwargs
             else LOGGING_SETTINGS_DEFAULTS)
         # Update self with dicts passed to the constructor.
         for arg in args:
@@ -62,8 +52,8 @@ class LoggingSettings(dict):
     def deep_update(self, updated):
         self = deep_update(self, updated)
 
-    def add_logfile_handler_for_app(app_name=None, *prefixes, **kwargs):
-        """ 
+    def add_logfile_handler_for_app(self, app_name=None, *prefixes, **kwargs):
+        """
         Creates an '[prefix1-prefix2-...](app_name)-logfile' logging handler,
         using LOGFILE_DEFAULTS or a passed logfile_defaults, which write to
         [prefix1.prefix2.etc.]app_name.log, in the directory self.log_dir (a
@@ -77,8 +67,9 @@ class LoggingSettings(dict):
             try:
                 logfile_dir = kwargs.get('logfile_dir', self.logfile_dir)
             except KeyError:
-                raise RuntimeError("A logfile_dir attribute must be set on " +
-                "this class or passed to this function as a keyword argument.")
+                raise RuntimeError(
+                    "A logfile_dir attribute must be set on this class or" +
+                    "passed to this function as a keyword argument.")
         if logfile_dir[-1] != os.sep:
             logfile_dir += os.sep
         dot_prefix = ".".join(prefixes) + '.' if prefixes else ''
@@ -94,7 +85,7 @@ class LoggingSettings(dict):
         for (k, v) in kwargs.iteritems():
             self['handlers'][handler_name][k] = v
 
-    def add_logfile_handlers_for_apps(*apps, **kwargs):
+    def add_logfile_handlers_for_apps(self, *apps, **kwargs):
         """
         Convenience for setting logfile handlers for multiple apps
         simultaneously. Same as add_logfile_handler_for_app, but *prefixes can

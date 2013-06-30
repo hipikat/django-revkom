@@ -2,6 +2,9 @@
 from revkom.settings import settings_path
 
 
+g = globals()
+
+
 # Debugging and development modes
 DEBUG = True
 
@@ -9,7 +12,7 @@ DEBUG = True
 execfile(settings_path.child('base.py'))
 
 # Directory structure
-s('MEDIA_ROOT', VAR_DIR.child('media'))
+MEDIA_ROOT = g.get('MEDIA_ROOT', g['VAR_DIR'].child('media'))
 
 # Databases
 DATABASES = {'default': {'ENGINE': 'django.db.backends.postgresql_psycopg2'}}

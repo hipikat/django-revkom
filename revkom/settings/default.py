@@ -2,6 +2,9 @@
 from revkom.settings import settings_path
 
 
+g = globals()
+
+
 # Debugging and development modes
 DEBUG = False
 
@@ -9,10 +12,10 @@ DEBUG = False
 execfile(settings_path.child('base.py'))
 
 # Directory structure
-s('MEDIA_ROOT', TMP_DIR.child('media'))
+MEDIA_ROOT = g.get('MEDIA_ROOT', g['TMP_DIR'].child('media'))
 
 # Databases
 DATABASES = {'default': {
     'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': DB_DIR.child('default.db')
+    'NAME': g['DB_DIR'].child('default.db')
 }}
