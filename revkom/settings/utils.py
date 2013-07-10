@@ -5,6 +5,13 @@ from collections import Mapping
 from revkom.utils import deep_update
 
 
+# Returns a function that takes key and value arguments, and applies
+# them to the setdefault method of a given dictionary, d. Intended usage
+# is in settings files, as calling setdefault on the module's globals()
+# dict is useful if the settings file expects to be included by a child
+# settings file, with execfile().
+#setdefault_settings = lambda d: getattr(d, 'setdefault')
+
 ###
 # Logging
 ###
@@ -26,6 +33,12 @@ LOGFILE_DEFAULTS = {
 
 
 class LoggingSettings(dict):
+    """
+    A dictConfig manager class, for configuring logging.
+    - https://docs.djangoproject.com/en/dev/topics/logging/\
+        #django-s-default-logging-configuration
+    - http://docs.python.org/2/library/logging.config.html
+    """
     def __init__(self, *args, **kwargs):
         # Install the default keys/values, either passed in or defined above.
         self.update(
