@@ -1,9 +1,10 @@
 
-from django.core.urlresolvers import resolve
-from django.test import TestCase
+from unittest import TestCase as BaseTestCase
 
 
-class FrontPageTest(TestCase):
-    def test_root_url_resolves_to_front_page_view(self):
-        found = resolve('/')
-        self.assertEqual(found.func.func_name, 'FrontPageView')
+class SettingsTests(BaseTestCase):
+    def test_abstract_settings_files(self):
+        #from revkom.settings._base import *
+        #print 'woo'
+        #import revkom.settings._default
+        pass

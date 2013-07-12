@@ -1,6 +1,6 @@
-# settings/base_debug.py
-#
-# Base debug settings for a project to include via execfile().
+"""
+Base debug settings for a project to include via execfile().
+"""
 
 from revkom.settings import base_settings_mixin
 

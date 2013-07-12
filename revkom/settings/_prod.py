@@ -1,6 +1,6 @@
-# settings/base_prod.py
-#
-# Base production settings for a project to include via execfile().
+"""
+Base production settings for a project to include via execfile().
+"""
 
 from revkom.settings import base_settings_mixin
 

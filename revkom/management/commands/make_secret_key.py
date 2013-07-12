@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 class Command(BaseCommand):
-    help = "Generates a secret key in %s" % settings.SECRET_KEY_FILE
+    help = "Generate a secret key in %s" % settings.SECRET_KEY_FILE
 
     def handle(self, *args, **options):
         secret_key = ''.join([random.SystemRandom().choice(
