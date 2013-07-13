@@ -1,8 +1,8 @@
 """
 This package facilitates the provision of organised, pre-configured
 Django projects, by providing boilerplate settings for a typical medium-
-sized web site (i.e. a modicum of bespoke code, but shy of "web scale",
-as a size-queen would call it - your typical skunkworks job).
+sized web site. I.e. a site with a modicum of bespoke code, but shy of
+what you'd call "web scale"- your typical skunkworks job.
 
 TODO: Highlight features!
 """

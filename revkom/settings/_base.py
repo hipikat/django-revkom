@@ -1,4 +1,5 @@
 # pylint: disable=C0103
+# C0103 - Invalid name for type. Please excuses the 'constants' g and s.
 """
 Reusable base settings for Django projects. Intended usage is to set
 globals in a settings file specific to an instance of a server, then
@@ -28,14 +29,10 @@ TESTING = True if 'test' in sys.argv else False
 
 # Required, pre-defined settings.
 REVKOM_REQUIRED_SETTINGS = set(('PROJECT_NAME', 'ADMINS'))
-if not TESTING and not REVKOM_REQUIRED_SETTINGS.issubset(g):
+if not REVKOM_REQUIRED_SETTINGS.issubset(g):
     raise ImproperlyConfigured(
         "Settings module missing expected setting(s): %s" %
         list(REVKOM_REQUIRED_SETTINGS.difference(g)))
-elif TESTING:
-    s('PROJECT_NAME', 'revkom')
-    s('ADMINS', tuple())
-
 
 ###
 # Django - Metadata

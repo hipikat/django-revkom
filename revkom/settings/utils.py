@@ -1,3 +1,8 @@
+"""
+Utilities for configuring Django settings.
+
+https://docs.djangoproject.com/en/dev/topics/settings/
+"""
 
 import os
 from collections import Mapping
@@ -52,10 +57,26 @@ class LoggingSettings(dict):
         self.logfile_dir = kwargs.pop('logfile_dir') \
             if 'logfile_dir' in kwargs else None
         # Apply any remaining keyword arguments as attributes on self.
-        for (k, v) in kwargs.iteritems():
-            self[k] = v
+        for (key, val) in kwargs.iteritems():
+            self[key] = val
+        # We've processed all the constructor arguments, but should still let
+        # the super class do any initialisation it needs to without arguments.
+        super(LoggingSettings, self).__init__()
 
     def deep_update(self, updated):
+        """
+        Update nested mappings without implicitly removing missing values. I.e.
+
+        >>> log_conf = LoggingSettings({'loggers': {'django': 'log_conf'}})
+        # deep_update() doesn't overwrite 'django' key in 'loggers' mapping
+        >>> log_conf.deep_update({'loggers': {'my_app': 'bar'}})
+        >>> 'my_app' in log_conf['loggers'] and 'django' in log_conf['loggers']
+        True
+        # Regular update() replaces 'loggers' with its own argument
+        >>> log_conf.update({'loggers': {'my_app': 'bar'}})
+        >>> log_conf['loggers']
+        {'my_app': 'bar'}
+        """
         self = deep_update(self, updated)
 
     def add_logfile_handler_for_app(self, app_name=None, *prefixes, **kwargs):
@@ -88,8 +109,8 @@ class LoggingSettings(dict):
             if 'defaults' not in kwargs else kwargs.pop('defaults')
         self['handlers'][handler_name]['filename'] = file_path
         # Set any remaining keywoard arguments as attributes of the handler.
-        for (k, v) in kwargs.iteritems():
-            self['handlers'][handler_name][k] = v
+        for (key, val) in kwargs.iteritems():
+            self['handlers'][handler_name][key] = val
 
     def add_logfile_handlers_for_apps(self, *apps, **kwargs):
         """
