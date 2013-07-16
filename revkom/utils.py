@@ -31,6 +31,14 @@ def unique_list(seq):
     return [x for x in seq if x not in seen and not seen_add(x)]
 
 
+def unique_string_list(*args):
+    """
+    Flattens sequences, removing duplicates and non-strings, returning a list.
+    """
+    return [str for str in unique_list(flat_list(*args))
+            if isinstance(str, basestring)]
+
+
 def deep_update(mapping, updated):
     """
     Deep, non-destructive updating for dictionaries.
