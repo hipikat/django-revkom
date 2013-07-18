@@ -49,6 +49,7 @@ s('WSGI_APPLICATION', g['PROJECT_NAME'] + '.wsgi.application')
 # Project directory is the repository root.
 s('PROJECT_DIR', SETTINGS_PATH.ancestor(3))
 # Only fixtures, static and template directories are used internally by Django.
+s('LIB_DIR', g['PROJECT_DIR'].child('lib'))              # lib/
 s('VAR_DIR', g['PROJECT_DIR'].child('var'))              # var/
 s('CONF_DIR', g['VAR_DIR'])                              # var/
 s('DB_DIR', g['VAR_DIR'].child('db'))                    # var/db/
@@ -148,9 +149,11 @@ s('USE_TZ', True)       # Timezone support for dates
 ###
 # List of finder classes that know how to find static files.
 s('STATICFILES_FINDERS', [
+    'revkom.staticfiles.CustomFileFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ])
+s('REVKOM_STATICFILES', [])
 # List of callables that know how to import templates.
 s('TEMPLATE_LOADERS', [
     'django.template.loaders.filesystem.Loader',
