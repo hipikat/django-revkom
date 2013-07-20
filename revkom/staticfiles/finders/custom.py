@@ -29,7 +29,9 @@ class CustomFileFinder(BaseFinder):
             self.mappings = settings.REVKOM_STATICFILES
             self.root_storages = {}
         except AttributeError:
-            raise ImproperlyConfigured("Missing setting REVKOM_STATICFILES")
+            raise ImproperlyConfigured(
+                "CustomFileFinder is installed in STATICFILES_FINDERS "
+                "but REVKOM_STATICFILES is missing.")
         for rel_path, abs_path in self.mappings.iteritems():
             if not Path(abs_path).exists():
                 logger.warning("File %s specified in REVKOM_STATICFILES as "
@@ -38,7 +40,14 @@ class CustomFileFinder(BaseFinder):
         super(CustomFileFinder, self).__init__(*args, **kwargs)
 
     def find(self, rel_path, all=False):
-        return self.mappings[rel_path]
+        """
+        Return the absolute filesystem path for a static file, given its
+        relative path under STATIC_URL.
+        """
+        try:
+            return self.mappings[rel_path]
+        except KeyError:
+            return []
 
     def list(self, ignore_patterns=None):
         for rel_path, abs_path in self.mappings.iteritems():

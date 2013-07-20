@@ -149,7 +149,6 @@ s('USE_TZ', True)       # Timezone support for dates
 ###
 # List of finder classes that know how to find static files.
 s('STATICFILES_FINDERS', [
-    'revkom.staticfiles.CustomFileFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ])
