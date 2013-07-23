@@ -93,6 +93,15 @@ s('TEMPLATE_DEBUG', g['DEBUG'])
 ###
 # http://docs.djangoproject.com/en/dev/topics/logging
 s('LOGGING', LoggingSettings({
+    'formatters': {
+        'verbose': {
+            'format': "\n%(levelname)s [%(asctime)s][%(pathname)s:%(lineno)s]" +
+                      "[p/t:%(process)d/%(thread)d]\n%(message)s"
+        },  
+        'simple': {
+            'format': '%(levelname)s [%(module)s:%(lineno)s] %(message)s'
+        },  
+    },   
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse',

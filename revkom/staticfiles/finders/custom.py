@@ -1,5 +1,5 @@
 """
-Tools for working with static files.
+A configurable static file finder for cherry-picking files.
 """
 
 import logging

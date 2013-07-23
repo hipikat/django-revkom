@@ -3,6 +3,7 @@ Utilities for configuring Django settings.
 
 https://docs.djangoproject.com/en/dev/topics/settings/
 """
+# TODO: Pull formatters out of base and set them here if they're not specified.
 
 import os
 from collections import Mapping
@@ -79,13 +80,13 @@ class LoggingSettings(dict):
         """
         self = deep_update(self, updated)
 
-    def add_logfile_handler_for_app(self, app_name=None, *prefixes, **kwargs):
+    def add_logfile_handler(self, handler_name=None, *prefixes, **kwargs):
         """
-        Creates an '[prefix1-prefix2-...](app_name)-logfile' logging handler,
-        using LOGFILE_DEFAULTS or a passed logfile_defaults, which write to
-        [prefix1.prefix2.etc.]app_name.log, in the directory self.log_dir (a
-        string to a writable directory you should set when initialising an
-        instance of this class (or whenever, really)).
+        Creates an '[prefix1-prefix2-...](handler_name)-logfile' logging
+        handler, using LOGFILE_DEFAULTS or a passed logfile_defaults, which
+        write to [prefix1.prefix2.etc.]handler_name.log, in the directory
+        self.log_dir (a string to a writable directory you should set when
+        initialising an instance of this class (or whenever)).
         """
         # Get the full path to a logfile to be written or die trying.
         if 'file_path' in kwargs:
@@ -100,10 +101,10 @@ class LoggingSettings(dict):
         if logfile_dir[-1] != os.sep:
             logfile_dir += os.sep
         dot_prefix = ".".join(prefixes) + '.' if prefixes else ''
-        file_path = dot_prefix + app_name + '.log'
+        file_path = dot_prefix + handler_name + '.log'
         # Construct a name for the handler, which is set in the logger.
         dash_prefix = "-".join(prefixes) + '-' if prefixes else ''
-        handler_name = dash_prefix + app_name + '_logfile'
+        handler_name = dash_prefix + handler_name + '_logfile'
         # Set the properties of the handler from known defaults and kwargs.
         self['handlers'][handler_name] = self.logfile_defaults.copy() \
             if 'defaults' not in kwargs else kwargs.pop('defaults')

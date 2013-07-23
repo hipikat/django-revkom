@@ -14,9 +14,12 @@ class CustomFileFinderTests(SimpleTestCase):
     Tests for the custom file finder class which cherry-picks static
     files from a filesystem based on the ``REVKOM_STATICFILES`` setting.
     """
-    def test_custom_file_finder(self):
-        test_settings = {
-            'foo': 'bar',
-        }
-        with self.settings(REVKOM_STATICFILES=test_settings):
+    base_test_settings = [
+        'lib/foundation'
+    ]
+    def test_custom_static_find(self):
+        with self.settings(REVKOM_STATICFILES=base_test_settings):
             pass
+
+    def test_custom_static_list(self):
+        pass
