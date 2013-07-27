@@ -13,3 +13,7 @@ Currently working on:
 Currently extracting:
 
 - django-sassmouth: A Django Staticfiles backend for compiling SASS/SCSS
+
+In the pipeline:
+
+- django-tuber: Requirements file declaration space and compression pipeline
