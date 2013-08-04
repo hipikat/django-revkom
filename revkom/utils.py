@@ -93,7 +93,7 @@ class EasyList(list):
         #new_list = self.__class__(iterable)
         #new_list.extend(self)
         #self = new_list
-        for item in reversed(iterable):
+        #for item in reversed(iterable):
 
     def prepend(self, item):
         """
