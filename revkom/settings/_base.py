@@ -38,7 +38,7 @@ if not REVKOM_REQUIRED_SETTINGS.issubset(g):
 # Django - Metadata
 ###
 s('TIME_ZONE', 'UTC')
-s('LANGUAGE_CODE', 'en-us')
+s('LANGUAGE_CODE', 'en')
 s('MANAGERS', g['ADMINS'])
 s('SITE_ID', 1)
 s('WSGI_APPLICATION', g['PROJECT_NAME'] + '.wsgi.application')

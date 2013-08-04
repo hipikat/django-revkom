@@ -17,3 +17,7 @@ Currently extracting:
 In the pipeline:
 
 - django-tuber: Requirements file declaration space and compression pipeline
+  [django-pipeline, django-compressor]
+- django-hostess: virtual host/subdomain processing
+  [different philosophy to django-subdomains]
+

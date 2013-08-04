@@ -24,3 +24,16 @@ def base_settings_mixin(settings='base', abstract=True):
     wishes to extend a base file.
     """
     return SETTINGS_PATH.child('%s%s.py' % ('_' if abstract else '', settings))
+
+
+#class PythonNameList(list):
+#    """
+#    A list of strings representing Python dotted names, or actual objects.
+#    """
+#    def __init__(self, iterable=None,
+#                 allow_objects=True, allow_strings=True, *args):
+#        """
+#        """
+#        super(PythonNameList, self).__init__(iterable)
+#        for arg in args:
+#            self.
