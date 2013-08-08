@@ -7,8 +7,17 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 
 import os
 from collections import Mapping
+from revkom.utils import EasyList, deep_update
 
-from revkom.utils import deep_update
+
+class SettingsList(EasyList):
+    """
+    An EasyList which by default is kept flat, and whose values are kept unique.
+    """
+    def __init__(self, *iterables, **kwargs):
+        super(SettingsList, self).__init__(*iterables)
+        self.unique = kwargs.get('unique', True)
+        self.flat = kwargs.get('flat', True)
 
 
 ###
