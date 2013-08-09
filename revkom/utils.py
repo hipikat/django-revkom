@@ -23,7 +23,7 @@ def deep_update(mapping, updated):
 
 def flat_list(*args):
     """
-    Flattens nested iterables (excluding strings) into a list. Any strings or
+    Flatten nested iterables (excluding strings) into a list. Any strings or
     non-iterable items passed as arguments are just added to the list in the
     order in which they are passed.
     """
@@ -61,48 +61,38 @@ class EasyList(list):
     by contrast, is designed for clean and readable code when efficiency is
     not a concern.
     """
-    __metaclass__ = PropMetaclass
-
-    def __new__(cls, *args, **kwargs):
-        #cls.print_foo()
-        return super(EasyList, cls).__new__(cls, *args, **kwargs)
-
-    #def __new__(cls, *args, **kwargs):
-    #    instance = super(EasyList, cls).__new__(cls, *args, **kwargs)
-    #    instance.add_boolean_prop('flat', False)
+    flat = BooleanData(False)
+    unique = BooleanData(False)
 
     def __init__(self, *iterables, **kwargs):
+        # Pre- and post-processors are functions that take and return
+        # iterables as arguments before and after operations on the list.
+        self._preprocessors = []
+        self._postprocessors = []
         super(EasyList, self).__init__()
+        # Register observers for changes on the list's properties
+        self.flat.attach_observer("set_true", self.flatten)
+        self.unique.attach_observer("set_true", self.uniquify)
+        # Decorate instance methods according to the list's properties
+        self._setup_processors()
+        # Populate our self with initial data
+        items = self._preprocess(iterables)
         map(self.extend, iterables)
-        #self.add_boolean_props(['flat', 'unique'], False)
-        #self.add_boolean_prop('flat', False)
+        self._postprocess()
 
-    #def __getattribute__(self, name):
-    #    return object.__getattribute__(self, name)
+    def _setup_processors():
+        if self.flat:
+            self._preprocessors.append(flat_list)
+        if self.unique:
+            self._preprocessors.append(self._uniquify)
 
-    ###
-    # Custom attributes
-    ###
-    # TODO: Surely we can abstract away this boilerplate? Something like:
-    #boolean_property(self, 'flat', False)
-    #flat = boolean_property(False)
-    #unique = boolean_property(False)
+    def _preprocess(*items):
+        for func in self._preprocessors:
+            items = func(items)
+        return items
 
-    #@property
-    #def flat(self):
-    #    return getattr(self, '_flat', False)
-
-    #@flat.setter
-    #def flat(self, truth):
-    #    self._flat = bool(truth)
-
-    #@property
-    #def unique(self):
-    #    return getattr(self, '_unique', False)
-
-    #@unique.setter
-    #def unique(self, truth):
-    #    self._unique = bool(truth)
+    def _postprocess():
+        [func() for func in self._postprocessors]
 
     ###
     # Familiar and methods
@@ -113,30 +103,33 @@ class EasyList(list):
         Insert items into the array, at index, in the order they are passed,
         and return self.
         """
+        for func in self._preprocessors:
+            items = func(items)
         insert_at_index = partial(super(EasyList, self).insert, index)
         map(insert_at_index, reversed(items))
-        #[super(EasyList, self).insert(index, item) for item in reversed(items)]
+        for func in self._postprocessors:
+            func()
         return self
 
-    def insert_before(self, target, *items):
+    def _insert_before(self, target, *items):
         """
         Insert items before a specified target in the list, in the order in
         which they are passed, and return self.
         """
         return self.insert(self.index(target), *items)
 
-    def insert_after(self, target, *items):
+    def _insert_after(self, target, *items):
         """
         Insert items after a specified target in the list, in the order in
         which they are passed, and return self.
         """
         return self.insert(self.index(target) + 1, *items)
 
-    def extend(self, *iterables):
+    def _extend(self, *iterables):
         map(super(EasyList, self).extend, iterables)
         return self
 
-    def extend_left(self, *iterables):
+    def _extend_left(self, *iterables):
         """
         Extend list by appending elements from iterables to the left-hand side
         of the list, preserving their order, and return self.
@@ -144,12 +137,33 @@ class EasyList(list):
         [self.insert(0, item) for iterable in iterables for item in reversed(iterable)]
         return self
 
-    def prepend(self, *items):
+    def _prepend(self, *items):
         """
         Add item to the beginning of the list, and return self.
         """
         [self.insert(0, item) for item in items]
         return self
+
+    ###
+    # Helpers for special properites of the list
+    ###
+
+    def flatten(self):
+        """
+        Flatten nested iterables (excluding strings).
+        """
+        flat_self = flat_list(self)
+        del self[:]
+        self.extend(flat_self)
+
+    def uniquify(self):
+        """
+        Remove duplicate elements from the list (keeping the earliest
+        occurences (from left to right)).
+        """
+        unique_self = unique_list(self)
+        del self[:]
+        self.extend(unique_self)
 
     ###
     # Python magic
