@@ -8,6 +8,7 @@ this repository acts as an experimental staging area.
 Currently working on:
 
 - revkom-settings: Generic, modular, easy Django settings with execfiles()!
+    - rename to django-glowballs (haha)
 - revkom-helpers: Utilities and mixins required by revkom spin-off projects
 
 Currently extracting:

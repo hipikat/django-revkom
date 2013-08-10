@@ -95,7 +95,7 @@ class EasyList(list):
         [func() for func in self._postprocessors]
 
     ###
-    # Familiar and methods
+    # Familiar methods
     ###
 
     def insert(self, index, *items):
@@ -103,12 +103,10 @@ class EasyList(list):
         Insert items into the array, at index, in the order they are passed,
         and return self.
         """
-        for func in self._preprocessors:
-            items = func(items)
+        items = self._preprocess(items)
         insert_at_index = partial(super(EasyList, self).insert, index)
         map(insert_at_index, reversed(items))
-        for func in self._postprocessors:
-            func()
+        self._postprocess()
         return self
 
     def _insert_before(self, target, *items):
@@ -116,14 +114,20 @@ class EasyList(list):
         Insert items before a specified target in the list, in the order in
         which they are passed, and return self.
         """
-        return self.insert(self.index(target), *items)
+        items = self._preprocess(items)
+        self.insert(self.index(target), *items)
+        self._postprocess()
+        return self
 
     def _insert_after(self, target, *items):
         """
         Insert items after a specified target in the list, in the order in
         which they are passed, and return self.
         """
-        return self.insert(self.index(target) + 1, *items)
+        items = self._preprocess(items)
+        self.insert(self.index(target) + 1, *items)
+        self._postprocess()
+        return self
 
     def _extend(self, *iterables):
         map(super(EasyList, self).extend, iterables)
