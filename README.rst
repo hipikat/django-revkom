@@ -1,24 +1,33 @@
 django-revkom
 =============
 
-Django-revkom is Adam Wright's in vitro development repository. Living between
-code specific to projects and thouroughly generic, sharable Python packages,
-this repository acts as an experimental staging area.
+Django-revkom is Adam Wright's in vitro development repository. Generic
+code in real projects is DRYed out by being refactored to this repository.
+Modules of reusable, sharable code may then be extracted from this repo
+into MIT-licensed Python packages. As such, this repository should be
+considered an experimental staging area.
 
-Currently working on:
+Currently, my plans involve:
 
-- revkom-settings: Generic, modular, easy Django settings with execfiles()!
-    - rename to django-glowballs (haha)
-- revkom-helpers: Utilities and mixins required by revkom spin-off projects
+- revkom-helpers: Software patterns, generic utils, helpful mixins and more
+  
+  Carrying the package name 'revkom', this will be where the most generic
+  constructs live, if they're likely to be used by spin-off projects
+  emerging from this repository.
 
-Currently extracting:
+- django-cinch: Code Is Not Configuration. However...
 
-- django-sassmouth: A Django Staticfiles backend for compiling SASS/SCSS
+  Modular settings, with a sensible default project configuration.
 
-In the pipeline:
+- django-sassmouth: A Djagno Staticfiles backend for compiling Sass/SCSS
 
-- django-hostess: virtual host/subdomain processing
-  [different philosophy to django-subdomains]
-- django-cinch: Code is not configuration, hey?
-    - generic, modular, easy Django settings with execfiles()
-    - read settings from ini files??
+  Intended to be a small, standalone, pure-Python backend for compiling
+  Sass et al. Good alternatives exist as extensions for django-pipeline
+  and elsewhere. At the time of writing, pyScss is under heavy development
+  and not quite up to working with Zurb Foundation, so the project's on
+  hold and I'm using Compass to compile my Sassy files.
+
+- django-hostess: Virtual host and subdomain processing
+
+  Alternatively, you could use django-subdomains, which is mature. I want
+  to take a philosophically different direction, however...

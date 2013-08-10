@@ -40,7 +40,7 @@ LOGFILE_DEFAULTS = {
 }
 
 
-class LoggingSettings(dict):
+class LoggingSetting(dict):
     """
     A dictConfig manager class, for configuring logging.
     - https://docs.djangoproject.com/en/dev/topics/logging/\
@@ -71,13 +71,13 @@ class LoggingSettings(dict):
             self[key] = val
         # We've processed all the constructor arguments, but should still let
         # the super class do any initialisation it needs to without arguments.
-        super(LoggingSettings, self).__init__()
+        super(LoggingSetting, self).__init__()
 
     def deep_update(self, updated):
         """
-        Update nested mappings without implicitly removing missing values. I.e.
+        Update nested mappings without implicitly removing missing values. I.e.:
 
-        >>> log_conf = LoggingSettings({'loggers': {'django': 'log_conf'}})
+        >>> log_conf = LoggingSetting({'loggers': {'django': 'log_conf'}})
         # deep_update() doesn't overwrite 'django' key in 'loggers' mapping
         >>> log_conf.deep_update({'loggers': {'my_app': 'bar'}})
         >>> 'my_app' in log_conf['loggers'] and 'django' in log_conf['loggers']

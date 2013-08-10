@@ -5,12 +5,28 @@ Base debug settings for a project to include via execfile().
 from revkom.settings import base_settings_mixin
 
 
-# Debugging and development modes
-DEBUG = True
-TEMPLATE_STRING_IF_INVALID = 'INVALID_CONTEXT[%s]'
+G = globals()
+S = G.setdefault
 
-# Include our sibling base settings. (Note: this also sets s and g.)
+
+# Debugging and development modes
+S('DEBUG', True)
+S('TEMPLATE_STRING_IF_INVALID', 'INVALID_CONTEXT[%s]')
+S('TEMPLATE_DEBUG', G['DEBUG'])
+
+# Include our sibling base settings.
 execfile(base_settings_mixin('base'))
 
 # Directory structure
-MEDIA_ROOT = globals()['TMP_DIR'].child('media')
+S('MEDIA_ROOT', G['TMP_DIR'].child('media'))
+
+# Django - request pipeline
+G['MIDDLEWARE_CLASSES'].append('debug_toolbar.middleware.DebugToolbarMiddleware')
+
+# Django - installed apps
+G['INSTALLED_APPS'].append(
+    # django-debug-toolbar: A configurable set of panels that display
+    # various debug information about the current request/response.
+    # https://github.com/django-debug-toolbar/django-debug-toolbar
+    'debug_toolbar'
+)
