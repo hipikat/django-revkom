@@ -27,7 +27,7 @@ Currently, my plans involve:
   and not quite up to working with Zurb Foundation, so the project's on
   hold and I'm using Compass to compile my Sassy files.
 
-- django-hostess: Virtual host and subdomain processing
+- django-hostess: Virtual host and subdomain processing for Django
 
   Alternatively, you could use django-subdomains, which is mature. I want
   to take a philosophically different direction, however...

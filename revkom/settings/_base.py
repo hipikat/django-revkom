@@ -160,7 +160,6 @@ S('STATICFILES_FINDERS', SettingList(
 
 # List of callables that know how to import templates.
 S('TEMPLATE_LOADERS', SettingList(
-    'revkom.staticfiles.finders.CustomFileFinder',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 ))
