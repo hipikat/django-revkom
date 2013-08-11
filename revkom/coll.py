@@ -2,11 +2,11 @@
 Utilities for working with collections.
 """
 
-from __future__ import absolute_import
 from collections import Iterable, Mapping
+import imp
 from functools import partial
+from revkom.data import BooleanData
 from revkom.mixins import PropMetaclass
-#from revkom.utils.klass import boolean_property
 
 
 def deep_update(mapping, updated):
@@ -68,7 +68,6 @@ class EasyList(list):
         # Pre- and post-processors are functions that take and return
         # iterables as arguments before and after operations on the list.
         self._preprocessors = []
-        self._postprocessors = []
         super(EasyList, self).__init__()
         # Register observers for changes on the list's properties
         self.flat.attach_observer("set_true", self.flatten)
@@ -78,7 +77,6 @@ class EasyList(list):
         # Populate our self with initial data
         items = self._preprocess(iterables)
         map(self.extend, iterables)
-        self._postprocess()
 
     def _setup_processors():
         if self.flat:
@@ -88,11 +86,8 @@ class EasyList(list):
 
     def _preprocess(*items):
         for func in self._preprocessors:
-            items = func(items)
-        return items
-
-    def _postprocess():
-        [func() for func in self._postprocessors]
+            for item in items:
+                yield func(item)
 
     ###
     # Familiar methods
@@ -103,9 +98,8 @@ class EasyList(list):
         Insert items into the array, at index, in the order they are passed,
         and return self.
         """
-        items = self._preprocess(items)
         insert_at_index = partial(super(EasyList, self).insert, index)
-        map(insert_at_index, reversed(items))
+        map(insert_at_index, reversed(self._preprocess(items)))
         self._postprocess()
         return self
 
@@ -172,3 +166,8 @@ class EasyList(list):
     ###
     # Python magic
     ###
+    pass
+
+
+class EasyDict(dict):
+    pass
