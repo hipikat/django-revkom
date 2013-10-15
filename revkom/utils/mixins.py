@@ -12,16 +12,17 @@ class GetSettingsMixin(object):
     A generic class mixin which adds a _get_settings() method, which will
     return a tuple of settings or throw appropriate errors if they aren't
     defined. TODO: Extend to allow default settings or warn instaed of error.
+    TODO: Create methods at class-creation time; allow renaming.
     """
-    def _get_setting(self, setting):
+    def get_setting(self, setting):
         try:
             return getattr(settings, setting)
         except AttributeError:
             raise ImproperlyConfigured(
-                "%s requires the setting %s to be defined." %
-                (self.__class__.__name__, setting))
+                "The class {} requires the setting {} to be defined.".format(
+                self.__class__.__name__, setting))
 
-    def _get_settings(self, *get_list, **default_list):
+    def get_settings(self, *get_list, **default_list):
         setting_list = []
         for setting in get_list:
             setting_list.append(self._get_setting(setting))
