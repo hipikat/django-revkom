@@ -88,7 +88,7 @@ class PropMetaclass(type):
             initialised with ``init_args`` and ``init_kwargs``.
             """
             # TODO: Warn if property already exists?
-            import pdb; pdb.set_trace()
+            #import pdb; pdb.set_trace()
             prop_instance = ptype_class(*init_args, **init_kwargs)
             accessors = [prop_instance.getter]
             if hasattr(prop_instance, 'setter'):

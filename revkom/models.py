@@ -15,5 +15,5 @@ class ProjectModel(Model):
     objects = ProjectManager()
 
     class Meta:
-        app_label = settings.PROJECT_NAME
+        app_label = settings.PROJECT_MODULE
         abstract = True
