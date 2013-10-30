@@ -31,3 +31,5 @@ Currently, my plans involve:
 
   Alternatively, you could use django-subdomains, which is mature. I want
   to take a philosophically different direction, however...
+
+- django-slater: or maybe woodlouse? For your debugging conveniences.
