@@ -33,3 +33,5 @@ Currently, my plans involve:
   to take a philosophically different direction, however...
 
 - django-slater: or maybe woodlouse? For your debugging conveniences.
+
+- django-psst: Project-specific settings toolkit
