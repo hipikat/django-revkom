@@ -20,7 +20,8 @@ class ManagementCommandMixin(BaseTestCase):
         """
         Get an instance of the Command class from a management command module,
         which should be a sub-class of django.core.management.base.BaseCommand.
-        Test that the class has a 'help' attribute; a non-empty string.
+        Test that the class has a 'help' attribute, and that it's a non-empty
+        string.
         """
         cmd = cmd_module.Command()
         self.assertIn('help', dir(cmd))
