@@ -1,22 +1,9 @@
 
-import warnings
-from django.conf import settings
-from .mixins import GetSettingsMixin
+import os
 
 
-def _debug_pdb():
-    """
-    Return a pdb module if settings.DEBUG is True. Otherwise, issue
-    an ImportWarning and return a stub object with a set_trace method
-    that does nothing.
-    """
-    class StubPdb(object):
-        def set_trace():
-            pass
-
-    if settings.DEBUG:
-        import pdb
-        return pdb
-    else:
-        return StubPdb()
-debug_pdb = _debug_pdb()
+def find_public_ssh_keys(dir):
+    for (dirpath, dirnames, filenames) in os.walk(dir):
+        for filename in filenames:
+            if filename.endswith('_rsa.pub') or filename.endswith('_dsa.pub'):
+                yield os.path.join(dirpath, filename)
