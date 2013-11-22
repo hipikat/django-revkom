@@ -2,9 +2,9 @@ django-revkom
 =============
 
 This is Adam Wright's 'in vitro' development repository. Code in real
-projects which is deemed generic enough gets refactored into this
+projects which is generic enough gets refactored into this
 repository. If it's deemed useful enough, it gets extracted and put into
-its own package for distribution. As such, you can consider this
+its own package for redistribution. As such, you can consider this
 repository an experimental staging area.
 
 .. Currently, my plans involve:
